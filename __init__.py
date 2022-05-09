@@ -55,8 +55,12 @@ def create_app():
     from .models import User
     try:
         with app.app_context():
-            admin = User(name = 'Администратор', admin = True, email = 'admin@gmail.com', password=generate_password_hash("123", method='sha256'))
+            admin = User(name = 'Администратор Владимир Владимирович', admin = True, email = 'admin@gmail.com', password=generate_password_hash("123", method='sha256'))
+            teacher = User(name = 'Семенова Марина Васильевна', admin = False, email = 'teacher@gmail.com', password=generate_password_hash("123", method='sha256'))
+            student = User(name = 'Артем', admin = False, email = 'artem@gmail.com', password=generate_password_hash("123", method='sha256'))
             db.session.add(admin)
+            db.session.add(teacher)
+            db.session.add(student)
             db.session.commit()
     except:
         pass
