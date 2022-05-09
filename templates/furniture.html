@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Оборудование
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-body">
+    <div class="container">
+        <div class=" is-4 is-offset-4 box">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="notification is-warning">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <h3>Оборудование</h3>
+            <table class="staff-table">
+                <tr><th>Тип (id) </th><th>Наименование</th><th> Модель</th><th>Стоимость</th><th>Помещение</th><th></th><th></th></tr>
+                {% for f in furniture %}
+                <tr>
+                    <td> {{ f.furniture_id }} </td>
+                    <td> {{ f.name }} </td>
+                    <td> {{ f.model }} </td>
+                    <td> {{ f.cost }} </td>
+                    <td> {{ f.number_of_room }} </td>
+                    <td>
+                        <a class="badge bg-warning text-black" href="{{ url_for('profile.furniture_change', id=f.id)}}">
+                            Переместить
+                        </a>
+                    </td>
+                    <td>
+                        <a class="badge bg-danger text-light" href="{{ url_for('profile.furniture_delete', id=f.id)}}">
+                            Удалить
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <a class="btn btn-primary text-light" href="{{ url_for('profile.furniture_add_type')}}">
+                Добавить новый тип
+            </a>
+            <a class="btn btn-primary text-light" href="{{ url_for('profile.furniture_add')}}">
+                Добавить оборудование
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

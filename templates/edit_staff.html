@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Изменение сотрудника
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-body">
+    <div class="container has-text-centered">
+        <div class="column is-4 is-offset-4 box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/edit_staff" enctype="multipart/form-data">
+            <div class="field">
+                <div class="control">
+                    <h5>Выберете сотрудника:</h5>
+                    <div style="height: 150px; overflow-y: auto;">
+                        {% for user in users %}
+                            <p>
+                                <input type="radio" name="user_id" value="{{ user.id }}"> {{ user.name }} </option>
+                            </p>
+                        {% endfor %}
+                    </div>
+                    <h5>Полный доступ:</h5>
+                    <p><input type="radio" name="admin" value="1"> Да </option></p>
+                    <p><input type="radio" name="admin" value="0"> Нет </option></p>
+                    <h5>Выберете должность:</h5>
+                    <div style="height: 150px; overflow-y: auto;">
+                        {% for position in positions %}
+                            <p>
+                                <input type="radio" name="position_id" value="{{ position.id }}"> {{ position.name }} </option>
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Изменить</button>
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

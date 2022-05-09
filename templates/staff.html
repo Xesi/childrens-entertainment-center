@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Сотрудники
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-body">
+    <div class="container">
+        <div class=" is-4 is-offset-4 box">
+            <h3>Сотрудники</h3>
+            <table class="staff-table">
+                <tr><th>ФИО</th><th>Должность</th><th>Полный доступ</th><th>id</th></tr>
+                {% for user in staff %}
+                <tr>
+                    <td> {{ user.second_name }} {{ user.first_name }} {{ user.middle_name }} </td>
+                    <td> {{ user.name }} </td>
+                    <td> {{ user.admin }} </td>
+                    <td> {{ user.user_id }} </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

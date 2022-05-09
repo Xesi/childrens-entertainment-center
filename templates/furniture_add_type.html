@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Добавить новый тип оборудования
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-body">
+    <div class="container has-text-centered">
+        <h3 class="title">Новый тип оборудования</h3>
+        <div class="column is-4 is-offset-4 box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('profile.furniture_add_type')}}" enctype="multipart/form-data">
+            <div class="field">
+                <div class="control">
+                    <h5>Наименовние</h5>
+                    <input class="input is-large" name="name">
+                    <h5>Модель</h5>
+                    <input class="input is-large" name="model">
+                    <h5>Стоимость</h5>
+                    <input class="input is-large" name="cost">
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Добавить</button>
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

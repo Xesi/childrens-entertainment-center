@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Клиенты
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-body">
+    <div class="container">
+        <div class=" is-4 is-offset-4 box">
+            <h3>Пользователи</h3>
+            <table class="staff-table">
+                <tr><th>ФИО</th><th>Почта</th><th>Полный доступ</th><th>id</th></tr>
+                {% for user in users %}
+                <tr>
+                    <td> {{ user.name }} </td>
+                    <td> {{ user.email }} </td>
+                    <td> {{ user.admin }} </td>
+                    <td> {{ user.id }} </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

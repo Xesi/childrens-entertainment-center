@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Добавить новое оборудование
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-body">
+    <div class="container has-text-centered">
+        <h3 class="title">Добавить новое оборудование</h3>
+        <div class="column is-4 is-offset-4 box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('profile.furniture_add')}}" enctype="multipart/form-data">
+            <div class="field">
+                <div class="control">
+                    <h5>Выбирете помещение</h5>
+                    <div style="height: 200px; overflow-y: auto;">
+                    {% for room in rooms %}
+                        <p>
+                            <input type="radio" name="number_of_room" value="{{ room.id }}"> {{ room.name }} </option>
+                        </p>
+                    {% endfor %}
+                    </div>
+                    <br>
+                    <h5>Выбирете тип оборудования</h5>
+                    <div style="height: 200px; overflow-y: auto;">
+                    {% for f in furniture %}
+                        <p>
+                            <input type="radio" name="furniture_id" value="{{ f.furniture_id }}"> {{ f.name }} ({{f.model}}) </option>
+                        </p>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Добавить</button>
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Профиль
+{% endblock %}
+
+{% block content %}
+<main class="hero-head">
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div class="notification is-warning">
+        {{ messages[0] }}
+    </div>
+{% endif %}
+{% endwith %}
+<div id="profile-block">
+    <h3>Профиль</h3>
+    <div id="personal">
+        <div>
+            <img id="avatar" src="{{ url_for('profile.avatar', id=user.id) }}">
+        </div>
+        <div style="padding:10px">
+            <table class="personal-table">
+                <tr><td class="personal-labels">Имя: </td><td class="personal-data">{{ user.name }}</td></tr>
+                <tr><td class="personal-labels">Почта: </td><td class="personal-data">{{ user.email }}</td></tr>
+            </table>
+            <a href="{{ url_for('profile.edit_profile')}}">
+                <span class="badge badge-warning">Изменить</span>
+            </a>
+        </div>
+    </div>
+    {% if user.admin %}
+    <div id="admin">
+        <h3>Администрирование</h3>
+        <div>
+            <a class="btn btn-success text-light" href="{{ url_for('profile.clients')}}">
+                Пользователи
+            </a>
+            <a class="btn btn-warning text-dark" href="{{ url_for('profile.staff')}}">
+                Стафф
+            </a>
+            <a class="btn btn-primary text-light" href="{{ url_for('profile.edit_staff')}}">
+                Управление персоналом
+            </a>
+            <a class="btn btn-info text-light" href="{{ url_for('profile.furniture')}}">
+                Оборудование
+            </a>
+        </div>
+        <br>
+        <div>
+            <h5>Занятия</h5>
+            <a class="btn btn-success text-light" href="{{ url_for('profile.create_event')}}">
+                Создать
+            </a>
+        </div>
+        <br>
+    </div>
+    {% endif %}
+    {% if my_events_count > 0 %}
+        <h5>Мои занятия</h5>
+    {% endif %}
+    {% for event in my_events %}
+        <div class="event">
+            <h5>{{ event.name }}</h6>
+            <table class="personal-table">
+                <tr><td class="personal-labels">Преподаватель: </td><td class="personal-data"> {{ event.second_name }} {{ event.first_name }} {{ event.middle_name }}</td></tr>
+                <tr><td class="personal-labels">Дата: </td><td class="personal-data">{{ event.r_date|format_datetime('date') }}</td></tr>
+                <tr><td class="personal-labels">Время: </td><td class="personal-data">{{ event.time_start|format_datetime('time') }} - {{ event.time_end|format_datetime('time') }}</td></tr>
+                <tr><td class="personal-labels">Помещение: </td><td class="personal-data">{{ event.room_name }}</td></tr>
+                <tr><td class="personal-labels">Стоимость: </td><td class="personal-data"><b>{{ event.cost }}руб.</b></td></tr>
+            </table>
+            {% if user.id != event.teacher %}
+            <a class="badge bg-primary text-light" href="{{ url_for('profile.cancell_event', id=event.id)}}">
+                Отменить
+            </a>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <br>
+    
+    <h5>Ближайшие занятия</h5>
+    {% for event in events %}
+        {% if user.admin or event.free > 0 %}
+            <div class="event">
+                <h5>{{ event.name }}</h6>
+                <table class="personal-table">
+                    <tr><td class="personal-labels">Преподаватель: </td><td class="personal-data"> {{ event.second_name }} {{ event.first_name }} {{ event.middle_name }}</td></tr>
+                    <tr><td class="personal-labels">Дата: </td><td class="personal-data">{{ event.r_date|format_datetime('date') }}</td></tr>
+                    <tr><td class="personal-labels">Время: </td><td class="personal-data">{{ event.time_start|format_datetime('time') }} - {{ event.time_end|format_datetime('time') }}</td></tr>
+                    <tr><td class="personal-labels">Помещение: </td><td class="personal-data">{{ event.room_name }}</td></tr>
+                    <tr><td class="personal-labels">Стоимость: </td><td class="personal-data"><b>{{ event.cost }}руб.</b></td></tr>
+                    <tr><td class="personal-labels">Свободно мест: </td><td class="personal-data">{{ event.free }}/{{ event.max_persons }}</td></tr>
+                    
+                </table>
+                {% if event.free > 0 %}
+                    <a class="badge bg-primary text-light" href="{{ url_for('profile.join_event', id=event.id)}}">
+                        Записаться
+                    </a>
+                {% endif %}
+                {% if user.admin %}
+                    <a class="badge bg-danger text-light" href="{{ url_for('profile.delete_event', id=event.id)}}">
+                        Удалить
+                    </a>
+                {% endif %}
+                {{event.v}}
+                <br>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+</div>
+</main>
+{% endblock %}

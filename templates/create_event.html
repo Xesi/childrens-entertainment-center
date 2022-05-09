@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Создать мероприятие
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-body">
+    <div class="container has-text-centered">
+        <h3 class="title">Добавить новое оборудование</h3>
+        <div class="is-4 is-offset-4 box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('profile.create_event')}}" enctype="multipart/form-data">
+            <div class="field">
+                <div class="control">
+                    <h5>Название</h5>
+                    <input class="input is-large" name="name">
+                    <h5>Преподаватель</h5>
+                    <div style="max-height: 100px; overflow-y: auto;">
+                        {% for teacher in staff %}
+                            <p>
+                                <input type="radio" name="staff_id" value="{{ teacher.user_id }}"> {{ teacher.second_name }} {{ teacher.first_name }} {{ teacher.middle_name }} - {{ teacher.name }} </option>
+                            </p>
+                        {% endfor %}
+                    </div>
+                    <br>
+                    <h5>Помещение</h5>
+                    <div style="height: 200px; overflow-y: auto;">
+                        {% for room in rooms %}
+                            <p>
+                                <input type="radio" name="room_id" value="{{ room.id }}"> {{ room.name }} - {{ room.name_of_type }} (площадь: {{ room.square_of_room }}, вместимость: {{ room.max_count_people }}, Оборудование: {{ room.fur }}) </option>
+                            </p>
+                        {% endfor %}
+                    </div>
+                    <h5>Дата</h5>
+                    <input type="date"name="r_date">
+                    <h5>Время начала</h5>
+                    <input type="time" name="time_start">
+                    <h5>Время окончания</h5>
+                    <input type="time"name="time_end">
+                    <h5>Стоимость</h5>
+                    <input name="cost">
+                    <h5>Количество слотов</h5>
+                    <input name="max_persons">
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Создать</button>
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

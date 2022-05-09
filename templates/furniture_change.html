@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Изменение расположения оборудования
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-body">
+    <div class="container has-text-centered">
+        <div class="column is-4 is-offset-4 box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('profile.furniture_change', id=furniture.id)}}" enctype="multipart/form-data">
+            <div class="field">
+                <div class="control">
+                    <h5>Изменение расположения оборудования</h5>
+                    <table class="personal-table">
+                        <tr><td class="personal-labels">Наименование: </td><td class="personal-data">{{ furniture.name }}</td></tr>
+                        <tr><td class="personal-labels">Модель: </td><td class="personal-data">{{ furniture.model }}</td></tr>
+                        <tr><td class="personal-labels">Стоимость: </td><td class="personal-data">{{ furniture.cost }}</td></tr>
+                    </table>
+                    <h5>Выберете помещение:</h5>
+                    <div style="height: 150px; overflow-y: auto;">
+                        {% for room in rooms %}
+                            <p>
+                                <input type="radio" name="room_id" value="{{ room.id }}"> {{ room.name }} </option>
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Изменить</button>
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

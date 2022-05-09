@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Новости
+{% endblock %}
+
+{% block content %}
+<main class=r"">
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div class="notification is-warning">
+        {{ messages[0] }}
+    </div>
+{% endif %}
+{% endwith %}
+<div id="profile-block" style="overflow-y: auto;">
+    <h3>Новости</h3>
+    <div id="personal"  style="display: block;">
+    {% for post in posts %}
+    <div class="box">
+        <a href="{{ url_for('news_feed.post', post_id=post['id']) }}">
+            <h2>{{ post['title'] }}</h2>
+        </a>
+        <span class="badge badge-primary">{{ post['created'] }}</span>
+        {% if user.admin %}
+        <a href="{{ url_for('news_feed.edit', id=post['id']) }}">
+            <span class="badge badge-warning">Edit</span>
+        </a>
+        {% endif %}
+    </div>
+    {% endfor %}
+    </div>
+</div>
+
+</div>
+</main>
+{% endblock %}
