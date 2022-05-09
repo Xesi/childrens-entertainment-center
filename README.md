@@ -20,6 +20,8 @@ $ pip install flask flask-sqlalchemy flask-login redis Pillow babel flask_pymong
 ### init databases
 ```
 $ python init_db.py
+
+$ python -c "from childrens_entertainment_center import db, create_app, models; db.create_all(app=create_app())"
 ```
 
 ### run app!
